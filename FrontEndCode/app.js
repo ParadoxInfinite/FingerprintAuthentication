@@ -22,5 +22,10 @@ app.get('/index', (req, res, next) => {
         'result' : "Fingerprint"
     });
   });
-
+app.post('/index',(req, res, next) => {
+  var rfidval = req.body.rfidtag;
+  res.render('index', {
+      'result' : rfidval  
+  });
+});
 app.listen(5000);
