@@ -1,0 +1,15 @@
+body{
+  text-align: center;
+}
+.menu {
+  margin : 0 auto;
+}
+.options{
+  width : 33%;
+  float : left;
+  border : 1px solid black;
+  height: 200px;
+}
+.rfid input{
+  display : none;
+}

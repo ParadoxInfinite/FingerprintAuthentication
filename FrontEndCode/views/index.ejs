@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Fingerprint Authentication</title>
+  <link rel="stylesheet" href="../css/master.css">
+  <script>
+    var rfid = document.getElementById('rfidtag');
+    function cursor(){
+      rfid.focus();
+    }
+    function message(){
+      alert("RFID value : " + rfid.value());
+    }
+  </script>
+</head>
+
+<body onload="cursor()">
+  <div class="container">
+    <div class="title">
+      <h2>Fingerprint Authentication</h2>
+    </div>
+    <div class="menu">
+      <div class="options rfid">
+        RFID
+        <form action="message()"><input type="text" name="rfidtag" id="rfidtag" value=""></form>
+      </div>
+        <div class="options fingerprint">
+          <%=result%>
+        </div>
+        <div class="options operation">
+          Operation
+        </div>
+      </div>
+  </div>
+</body>
+</html>
