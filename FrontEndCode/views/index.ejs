@@ -22,12 +22,22 @@
         RFID
         <form action="/index" method="POST"><input type="password" name="rfidtag" id="rfidtag" value=""></form>
       </div>
-        <div class="options fingerprint">
-          <%=result%>
-        </div>
-        <div class="options operation">
+      <div class="options fingerprint">
+          Authentication
+          <form action="/index" method="POST">
+            <label for="pin">PIN : </label>
+            <input type="password" name="pin" id="pin">
+          </form>
+          <% if (fingerprint) { %>
+            <hr>
+            OR
+            <hr>
+            <button>Fingerprint</button>
+          <% } %>
+      </div>
+      <div class="options operation">
           Operation
-        </div>
+      </div>
       </div>
   </div>
 </body>

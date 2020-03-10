@@ -22,5 +22,7 @@ app.get('/', (req, res, next) => {
     res.redirect('/index')
     next();
   })
-
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
+  })
 app.listen(5000);
