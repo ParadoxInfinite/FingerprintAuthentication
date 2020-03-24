@@ -1,4 +1,4 @@
-UserSchema =({
+	UserSchema =({
 customerid:{
 	type: String,
 	unique: true,
@@ -24,7 +24,7 @@ acctype: {
 }
 fingerprint: {
 	type: String,
-	unique: true
+	unique: true;
 }
 pin: {
 	type: String,

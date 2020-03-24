@@ -21,22 +21,9 @@
       <div class="options rfid">
         RFID
         <form action="/index" method="POST"><input type="password" name="rfidtag" id="rfidtag" value=""></form>
-      </div>
-      <div class="options fingerprint">
-          Authentication
-          <form action="/index" method="POST">
-            <label for="pin">PIN : </label>
-            <input type="password" name="pin" id="pin">
-          </form>
-          <% if (fingerprint) { %>
-            <hr>
-            OR
-            <hr>
-            <button>Fingerprint</button>
-          <% } %>
-      </div>
-      <div class="options operation">
-          Operation
+        <% if (rfiderr) { %>
+          <span>RFID not found</span>
+        <% } %>
       </div>
       </div>
   </div>

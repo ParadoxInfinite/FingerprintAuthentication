@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fingerprint Authentication</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+          <h2>Fingerprint Authentication</h2>
+        </div>
+        <div class="menu">
+            <div class="options fingerprint">
+                Authentication
+                <form action="/authentication" method="POST">
+                  <span><%= name %> enter your PIN</span><br>
+                  <label for="pin">PIN : </label>
+                  <input type="password" name="pin" id="pin">
+                <% if (fingerprint) { %>
+                  <hr>
+                  OR
+                  <hr>
+                  <button>Fingerprint</button>
+                <% } %>
+              </form>
+            </div>
+          </div>
+      </div>
+</body>
+</html>

@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient
 const router = express.Router();
 router.get('/index', (req, res, next) => {
     res.render('index', {
-      'fingerprint': false
+      'rfiderr': false
     });
   });
 router.post('/index',(req, res, next) => {
@@ -17,15 +17,14 @@ router.post('/index',(req, res, next) => {
     var db = client.db('bankdb')
     db.collection('users').find({'cardno': rfidval}).toArray(function(err, result) {
       if (err) throw err
-      if(result[0].fingerprint){
-        res.render('index', {
-          'fingerprint' : true
-      });
+      if(result[0]){
+        req.session.context = result[0];
+        res.redirect('/authentication')
       }
-      else {
+      else{
         res.render('index', {
-          'fingerprint' : false
-      });
+          'rfiderr': true
+        });
       }
     })
   })
