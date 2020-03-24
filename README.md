@@ -8,10 +8,10 @@ Final Year Project
 - [x] Started on front end code
 - [x] Upload seminar documents
 - [x] Set up MongoDB/~Firebase~ for DB
+- [x] Figure out fingerprint matching method *OR* Use SourceAFIS algorithm
 
 ### Things to do
 
 - [ ] Finish front end
-- [ ] Figure out fingerprint matching method *OR* Use SourceAFIS algorithm
 - [ ] Collect data fingerprint data
 - [ ] Test out the system
