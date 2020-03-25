@@ -1,12 +1,9 @@
 body{
   text-align: center;
 }
-.menu {
-  margin : 0 auto;
-}
 .options{
-  width : 33%;
-  float : left;
+  width : 35%;
+  margin : 0 auto;
   border : 1px solid black;
   height: 200px;
 }

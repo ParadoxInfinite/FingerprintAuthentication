@@ -6,6 +6,7 @@ const path = require('path');
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/authentication');
 const registerRoutes = require('./routes/register');
+const adminRoutes = require('./routes/adminpanel');
 const session = require('express-session');
 
 app.use(session({secret: 'mySecret', resave: false, saveUninitialized: false})); // Setting the session and secret for the context to be passed.
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public'))) // Declaring the public 
 app.use(indexRoutes)
 app.use(authRoutes)
 app.use(registerRoutes)
+app.use(adminRoutes)
 
 app.get('/', (req, res, next) => { // Redirecting the requests/hits on '/' to '/index'
     res.redirect('/index')

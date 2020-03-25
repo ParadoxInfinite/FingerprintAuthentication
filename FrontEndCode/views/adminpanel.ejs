@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="jquery-1.8.2.js"></script>
+    <style>
+        body{
+            text-align: center;
+        }
+        table{
+            margin : 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel</h2>
+        <div class="table">
+            <table class="">
+                <tr class="">
+                  <th class="">Customer ID</th>
+                  <th class="">Name</th>
+                  <th class="">Card Number</th>
+                  <th class="">Delete</th>
+                </tr>
+                <% for(var e in results){ %>
+                <tr>
+                  <td class="data">
+                    <%= results[e].customerid %>
+                  </td>
+                  <td class="data">
+                    <%= results[e].name %>
+                  </td>
+                  <td class="data">
+                    <%= results[e].cardno %>
+                  </td>
+                  <td>
+                      <button id=<%=results[e].cardno%>>X</button>
+                  </td>
+                </tr>
+                <%}%>
+              </table>
+              <span></span>
+        </div>
+    </div>
+</body>
+<script src="admin.js"></script>
+</html>
