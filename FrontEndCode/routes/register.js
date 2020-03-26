@@ -4,7 +4,6 @@ const MongoClient = require('mongodb').MongoClient
 // const path = require('path')
 const router = express.Router();
 
-
 function CaptureFinger(quality, timeout) {
   // if (!PrepareScanner()) {
   //     return getFalseRes();
@@ -44,11 +43,19 @@ function PostMFS100Client(method, jsonData) {
 }
 
 
+ router.post('/register', (req,res,next) => {
+   console.log(req.body);
+  MongoClient.connect('mongodb://localhost:27017/bankdb', { // Connecting to our database (bankdb) on MongoDB
+    useNewUrlParser: true
+  }, function(err, client) { //Callback function for the connection
+    if (err) throw err // If the connection fails, throws err
+    var db = client.db('bankdb') // Var for ease of use and also traditional Mongo usage.
+    //var regdata = { customerid: cid , name: cname, accno : ano, cardno : cno, acctype: atype, fingerprint: fp, pin : pin, balance: bal }
+    db.collection('users').insertOne(req.body);
+  })
+  res.redirect('index');
 
-
-// router.post('/register', (req,res,next=>{
-
-// });
+ });
 
 router.get('/register', (req, res, next) => {
     res.render('register');
