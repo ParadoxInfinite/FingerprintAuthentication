@@ -1,13 +1,11 @@
 const express = require('express');
 const app = express();
 const MongoClient = require('mongodb').MongoClient
-// const path = require('path')
 const router = express.Router();
+var accno = 1000001
+var customerid = 99999001
 
 function CaptureFinger(quality, timeout) {
-  // if (!PrepareScanner()) {
-  //     return getFalseRes();
-  // }
   var MFS100Request = {
       "Quality": quality,
       "TimeOut": timeout
@@ -42,9 +40,17 @@ function PostMFS100Client(method, jsonData) {
   return res;
 }
 
+router.get('/register', (req, res, next) => {
+  customerid+=1;
+  accno+=1;
+  res.render('register',{
+    'cardno' : req.session.context,
+    'customerid' : JSON.stringify(customerid),
+    'accno' : JSON.stringify(accno)
+  });
+});
 
- router.post('/register', (req,res,next) => {
-   console.log(req.body);
+router.post('/register', (req,res,next) => {
   MongoClient.connect('mongodb://localhost:27017/bankdb', { // Connecting to our database (bankdb) on MongoDB
     useNewUrlParser: true
   }, function(err, client) { //Callback function for the connection
@@ -54,12 +60,6 @@ function PostMFS100Client(method, jsonData) {
     db.collection('users').insertOne(req.body);
   })
   res.redirect('index');
-
- });
-
-router.get('/register', (req, res, next) => {
-    res.render('register');
-  });
-
+});
 
 module.exports = router;

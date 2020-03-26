@@ -9,51 +9,30 @@
     <script src="../jquery-1.8.2.js"></script>
     <script src="../mfs100-9.0.2.6.js"></script>
     <script>
+        console.log("js works")
     function Capture() {
   try {
-    //     document.getElementById('txtStatus').value = "";
-    //   document.getElementById('cid').value = "";
-    //   document.getElementById('cname').value = "";
-    //   document.getElementById('ano').value = "";
-    //   document.getElementById('cno').value = "";
-    //   document.getElementById('atype').value = "";
-      document.getElementById('fingerimg').src = "data:image/bmp;base64,";
-    //   document.getElementById('quality').value = "";
-    //   document.getElementById('pin').value = "";
-    //   document.getElementById('bal').value = "";
-
+    //   document.getElementById('fingerimg').src = "data:image/bmp;base64,";
+    console.log("here0")
       var res = CaptureFinger(60, 10);
-      if (res.httpStaus) {
-            flag = 1;
+      console.log("Here1")
+      if (res.httpStatus) {
+          console.log("here2")
           document.getElementById('txtStatus').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
-
           if (res.data.ErrorCode == "0") {
+              console.log("here3")
               document.getElementById('fingerimg').src = "data:image/bmp;base64," + res.data.BitmapData;
-              //var imageinfo = "Quality: " + res.data.Quality;
-            //   + " Nfiq: " + res.data.Nfiq + " W(in): " + res.data.InWidth + " H(in): " + res.data.InHeight + " area(in): " + res.data.InArea + " Resolution: " + res.data.Resolution + " GrayScale: " + res.data.GrayScale + " Bpp: " + res.data.Bpp + " WSQCompressRatio: " + res.data.WSQCompressRatio + " WSQInfo: " + res.data.WSQInfo;
-              //document.getElementById('txtImageInfo').value = imageinfo;
               document.getElementById('isoTemp').value = res.data.IsoTemplate;
-              //var fpdata = res.data.IsoTemplate;
               document.getElementById('quality').value = res.data.Quality;
-              //document.getElementById('txtAnsiTemplate').value = res.data.AnsiTemplate;
-              //document.getElementById('txtIsoImage').value = res.data.IsoImage;
-              //document.getElementById('pin').value = res.data.RawData;
-              //document.getElementById('balance').value = res.data.WsqImage;
-            
-            var cid = document.getElementById('cid').value;
-            var cname = document.getElementById('cname').value;
-            var ano = document.getElementById('ano').value;
-            var cno = document.getElementById('cno').value;
-            var atype = document.getElementById('atype').value;
-            var pin = document.getElementById('pin').value;
-            var bal = document.getElementById('bal').value;
           }
       }
       else {
+          console.log("here4")
           alert(res.err);
       }
   }
   catch (e) {
+      console.log("here5")
       alert(e);
   }
   return false;
@@ -64,10 +43,10 @@
         <div class="container">
             <div class="reg-form">
                 <form action="/register" method="POST" name="reg">
-                    <div><label for="customerid">Customer ID: </label><input type="text" name="customerid" id="cid"></div>
-                    <div><label for="name">Name: </label><input type="text" id="cname" name="name"></div>
-                    <div><label for="accno">Account Number: </label><input type="text" id="ano" name="accno"></div>
-                    <div><label for="cardno">Card Number: </label><input type="text" id="cno" name="cardno"></div>
+                    <div><label for="customerid">Customer ID: </label><input type="text" value="<%=customerid%>" name="customerid" id="cid" readonly></div>
+                    <div><label for="name">Name: </label><input type="text" id="cname" name="name" required></div>
+                    <div><label for="accno">Account Number: </label><input type="text" value="<%=accno%>" id="ano" name="accno" readonly></div>
+                    <div><label for="cardno">Card Number: </label><input type="text" value="<%=cardno%>" id="cno" name="cardno" readonly></div>
                     <div><label for="acctype">Account Type: </label>
                             <select id="atype" name="acctype">
                                 <option value="Savings">Savings</option>
@@ -105,8 +84,8 @@
                                 </tr>
                         </table>
                     </div>
-                    <div><label for="pin">PIN: </label><input type="password" id="pin" name="pin"></div>
-                    <div><label for="balance">Balance: </label><input type="text" id="bal" name="balance"></div>
+                    <div><label for="pin">PIN: </label><input type="password" id="pin" name="pin" required></div>
+                    <div><label for="balance">Balance: </label><input type="text" id="bal" name="balance" required></div>
                     <div><input type="submit" value="Register"></div>
                 </form>
             </div>

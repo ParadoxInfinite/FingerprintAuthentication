@@ -1,5 +1,5 @@
-﻿// var uri = "https://localhost:8003/mfs100/";  //Secure
-var uri = "https://localhost:8003/mfs100/"; //Non-Secure
+﻿//var uri = "https://localhost:8003/mfs100/";  //Secure
+var uri = "http://localhost:8004/mfs100/"; //Non-Secure
 
 var KeyFlag = "";
 var isGetSuccess = false;
@@ -22,9 +22,9 @@ function GetMFS100KeyInfo(key) {
     return PostMFS100Client("keyinfo", jsondata);
 }
 function CaptureFinger(quality, timeout) {
-    if (!PrepareScanner()) {
-        return getFalseRes();
-    }
+    // if (!PrepareScanner()) {
+    //     return getFalseRes();
+    // }
     var MFS100Request = {
         "Quality": quality,
         "TimeOut": timeout
@@ -93,7 +93,8 @@ function GetProtoRbdData(BiometricArray) {
 function PostMFS100Client(method, jsonData) {
     var res;
     $.support.cors = true;
-    var httpStaus = false;
+    var httpStatus = false;
+    console.log("before ajax")
     $.ajax({
         type: "POST",
         async: false,
@@ -104,11 +105,12 @@ function PostMFS100Client(method, jsonData) {
         dataType: "json",
         processData: false,
         success: function (data) {
-            httpStaus = true;
-            res = { httpStaus: httpStaus, data: data };
+            httpStatus = true;
+            res = { httpStatus: httpStatus, data: data };
         },
         error: function (jqXHR, ajaxOptions, thrownError) {
-            res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
+            console.log("Ajaxops:" + ajaxOptions + " errthrown : " + thrownError)
+            res = { httpStatus: httpStatus, err: getHttpError(jqXHR) };
         },
     });
     return res;

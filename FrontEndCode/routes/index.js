@@ -26,6 +26,7 @@ router.post('/index',(req, res, next) => { // Once the RFID is entered, this is 
         res.redirect('/authentication') // Proceed to authentication.
       }
       else{ // IF RFID details not found in DB
+        req.session.context = rfidval;
         res.redirect('/register') // Route to registration.
       }
     })
