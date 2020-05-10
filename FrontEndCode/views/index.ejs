@@ -23,7 +23,7 @@
       <div class="options rfid">
         <h5>RFID</h5>
         <h6>Swipe the RFID card over the scanner</h6>
-        <form action="/index" method="POST"><input type="password" name="rfidtag" id="rfidtag" value=""></form>
+        <form action="/index" method="POST"><input type="password" name="rfidtag" id="rfidtag" value="" onfocusout="cursor()"></form>
         <% if (rfiderr) { %>
           <span>RFID not found</span>
         <% } %>

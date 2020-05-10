@@ -1,63 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Registration</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/master.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
     <script src="../jquery-1.8.2.js"></script>
     <script src="../mfs100-9.0.2.6.js"></script>
     <script>
-        console.log("js works")
-    function Capture() {
-  try {
-    //   document.getElementById('fingerimg').src = "data:image/bmp;base64,";
-    console.log("here0")
-      var res = CaptureFinger(60, 10);
-      console.log("Here1")
-      if (res.httpStatus) {
-          console.log("here2")
-          document.getElementById('txtStatus').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
-          if (res.data.ErrorCode == "0") {
-              console.log("here3")
-              document.getElementById('fingerimg').src = "data:image/bmp;base64," + res.data.BitmapData;
-              document.getElementById('isoTemp').value = res.data.IsoTemplate;
-              document.getElementById('quality').value = res.data.Quality;
+      function Capture() {
+        try {
+          //   document.getElementById('fingerimg').src = "data:image/bmp;base64,";
+          var res = CaptureFinger(60, 10);
+          if (res.httpStatus) {
+            document.getElementById("txtStatus").value =
+              "ErrorCode: " +
+              res.data.ErrorCode +
+              " ErrorDescription: " +
+              res.data.ErrorDescription;
+            if (res.data.ErrorCode == "0") {
+              document.getElementById("fingerimg").src =
+                "data:image/bmp;base64," + res.data.BitmapData;
+              document.getElementById("isoTemp").value = res.data.IsoTemplate;
+              document.getElementById("quality").value = res.data.Quality;
+            }
+          } else {
+            alert(res.err);
           }
+        } catch (e) {
+          alert(e);
+        }
+        return false;
       }
-      else {
-          console.log("here4")
-          alert(res.err);
-      }
-  }
-  catch (e) {
-      console.log("here5")
-      alert(e);
-  }
-  return false;
-}</script>
-   
-</head>
-<body>
-        <div class="container">
-            <div class="reg-form">
-                <form action="/register" method="POST" name="reg">
-                    <div><label for="customerid">Customer ID: </label><input type="text" value="<%=customerid%>" name="customerid" id="cid" readonly></div>
-                    <div><label for="name">Name: </label><input type="text" id="cname" name="name" required></div>
-                    <div><label for="accno">Account Number: </label><input type="text" value="<%=accno%>" id="ano" name="accno" readonly></div>
-                    <div><label for="cardno">Card Number: </label><input type="text" value="<%=cardno%>" id="cno" name="cardno" readonly></div>
-                    <div><label for="acctype">Account Type: </label>
-                            <select id="atype" name="acctype">
-                                <option value="Savings">Savings</option>
-                                <option value="Current">Current</option>
-                            </select>
-                    </div>
-                    <div><label for="fp">Fingerprint: </label><input type="button" value="Capture" onclick="Capture()">
-                        <table width="100%" style="padding-top:0px;">
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="reg-form">
+        <form action="/register" method="POST" name="reg">
+          <div>
+            <label for="customerid">Customer ID: </label
+            ><input
+              type="text"
+              value="<%=customerid%>"
+              name="customerid"
+              id="cid"
+              readonly
+            />
+          </div>
+          <div>
+            <label for="name">Name: </label
+            ><input type="text" id="cname" name="name" required />
+          </div>
+          <div>
+            <label for="accno">Account Number: </label
+            ><input
+              type="text"
+              value="<%=accno%>"
+              id="ano"
+              name="accno"
+              readonly
+            />
+          </div>
+          <div>
+            <label for="cardno">Card Number: </label
+            ><input
+              type="text"
+              value="<%=cardno%>"
+              id="cno"
+              name="cardno"
+              readonly
+            />
+          </div>
+          <div>
+            <label for="acctype">Account Type: </label>
+            <select id="atype" name="acctype">
+              <option value="Savings">Savings</option>
+              <option value="Current">Current</option>
+            </select>
+          </div>
+          <div>
+            <label for="fp">Fingerprint: </label
+            ><input type="button" value="Capture" onclick="Capture()" />
+            <img
+              id="fingerimg"
+              width="145px"
+              height="188px"
+              Falt="Finger Image"
+              class="padd_top"
+            />
+            <div>
+              <label for="">Status : </label
+              ><input type="text" value="" id="txtStatus" disabled />
+            </div>
+            <div>
+              <label for="">Quality : </label
+              ><input type="text" value="" id="quality" disabled />
+            </div>
+            <div>
+              <textarea
+                name="fingerprint"
+                id="isoTemp"
+                cols="30"
+                rows="10"
+                hidden
+              ></textarea>
+            </div>
+            <!-- <table width="100%" style="padding-top:0px;">
+                            
                                 <tr class="hide">
                                     <td width="150px" height="190px" align="center" class="img">
-                                        <img id="fingerimg" width="145px" height="188px" Falt="Finger Image" class="padd_top" />
+                                        
                                     </td>
                                 </tr>
                                 <br>
@@ -67,7 +122,7 @@
                                             Status:
                                         </td>
                                         <td>
-                                            <input type="text" value="" id="txtStatus" />
+                                            
                                         </td>
                                     </tr>
                                     <tr class="hide">
@@ -75,24 +130,26 @@
                                             Quality:
                                         </td>
                                         <td>
-                                            <input type="text" value="" id="quality" />
+                                            
                                         </td>
                                         <td>
-                                            <textarea name="fingerprint" id="isoTemp" cols="30" rows="10" hidden></textarea>
+                                            
                                         </td>
                                     </tr>
                                 </tr>
-                        </table>
-                    </div>
-                    <div><label for="pin">PIN: </label><input type="password" id="pin" name="pin" required></div>
-                    <div><label for="balance">Balance: </label><input type="text" id="bal" name="balance" required></div>
-                    <div><input type="submit" value="Register"></div>
-                </form>
-            </div>
-        </div>
-
-       
-        
-    
-</body>
+                        </table> -->
+          </div>
+          <div>
+            <label for="pin">PIN: </label
+            ><input type="password" id="pin" name="pin" required />
+          </div>
+          <div>
+            <label for="balance">Balance: </label
+            ><input type="text" id="bal" name="balance" required />
+          </div>
+          <div><input type="submit" value="Register" /></div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
