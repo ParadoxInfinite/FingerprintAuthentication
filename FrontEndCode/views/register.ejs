@@ -8,27 +8,36 @@
     <link rel="stylesheet" href="../css/master.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <script src="../jquery-1.8.2.js"></script>
-    <script src="../mfs100-9.0.2.6.js"></script>
+    <!-- <script src="../mfs100-9.0.2.6.js"></script> -->
     <script>
       function Capture() {
         try {
           //   document.getElementById('fingerimg').src = "data:image/bmp;base64,";
-          var res = CaptureFinger(60, 10);
-          if (res.httpStatus) {
-            document.getElementById("txtStatus").value =
-              "ErrorCode: " +
-              res.data.ErrorCode +
-              " ErrorDescription: " +
-              res.data.ErrorDescription;
-            if (res.data.ErrorCode == "0") {
-              document.getElementById("fingerimg").src =
-                "data:image/bmp;base64," + res.data.BitmapData;
-              document.getElementById("isoTemp").value = res.data.IsoTemplate;
-              document.getElementById("quality").value = res.data.Quality;
-            }
-          } else {
-            alert(res.err);
-          }
+          // var res = CaptureFinger(60, 10);
+          var res;
+          $.ajax({
+            type: "POST",
+            async: true,
+            crossDomain: true,
+            url: "http://localhost:5000/fingerCapture",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+              httpStatus = true;
+              if (data.httpStatus) {
+                document.getElementById("txtStatus").value =
+                  " ErrorDescription: " + data.errorDescription;
+                document.getElementById("fingerimg").src =
+                  "data:image/bmp;base64," + data.bitMapData;
+                document.getElementById("isoTemp").value = data.isoTemplate;
+                document.getElementById("quality").value = data.quality;
+              } else {
+                alert(res.err);
+              }
+            },
+            error: function (jqXHR, ajaxOptions, thrownError) {
+              alert("Scanner not available, try again");
+            },
+          });
         } catch (e) {
           alert(e);
         }
@@ -108,44 +117,14 @@
                 hidden
               ></textarea>
             </div>
-            <!-- <table width="100%" style="padding-top:0px;">
-                            
-                                <tr class="hide">
-                                    <td width="150px" height="190px" align="center" class="img">
-                                        
-                                    </td>
-                                </tr>
-                                <br>
-                                <tr class="hide">
-                                    <tr class="hide">
-                                        <td>
-                                            Status:
-                                        </td>
-                                        <td>
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr class="hide">
-                                        <td>
-                                            Quality:
-                                        </td>
-                                        <td>
-                                            
-                                        </td>
-                                        <td>
-                                            
-                                        </td>
-                                    </tr>
-                                </tr>
-                        </table> -->
           </div>
           <div>
             <label for="pin">PIN: </label
             ><input type="password" id="pin" name="pin" required />
           </div>
           <div>
-            <label for="balance">Balance: </label
-            ><input type="text" id="bal" name="balance" required />
+            <!-- <label for="balance">Balance: </label
+            ><input type="text" id="bal" name="balance" required /> -->
           </div>
           <div><input type="submit" value="Register" /></div>
         </form>

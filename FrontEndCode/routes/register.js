@@ -1,8 +1,14 @@
 const express = require("express");
+var jsdom = require("jsdom");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 const router = express.Router();
-
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = new JSDOM("").window;
+var $ = (jQuery = require("jquery")(window)); // Creating a window where the jQuery can execute since this is backend.
+global.document = document;
+var uri = "http://localhost:8004/mfs100/";
 // Variables to generate account number and customer id in register page. (This is temp, need to find a fix.)
 var accno = 1000001;
 var customerid = 99999001;
@@ -46,6 +52,27 @@ function PostMFS100Client(method, jsonData) {
   return res;
 }
 
+// If the Ajax request isn't successful, this defines what type of error occured.
+function getHttpError(jqXHR) {
+  var err = "Unhandled Exception";
+  if (jqXHR.status === 0) {
+    err = "Service Unavailable";
+  } else if (jqXHR.status == 404) {
+    err = "Requested page not found";
+  } else if (jqXHR.status == 500) {
+    err = "Internal Server Error";
+  } else if (thrownError === "parsererror") {
+    err = "Requested JSON parse failed";
+  } else if (thrownError === "timeout") {
+    err = "Time out error";
+  } else if (thrownError === "abort") {
+    err = "Ajax request aborted";
+  } else {
+    err = "Unhandled Error";
+  }
+  return err;
+}
+
 // GET request to /register handled here.
 router.get("/register", (req, res, next) => {
   // Increment the customerid and accno to render. (Valid only in this session.)
@@ -79,5 +106,19 @@ router.post("/register", (req, res) => {
   );
   res.render("registersuccess"); // Redirect to index page after registration.
 });
-
+router.post("/fingerCapture", (req, res) => {
+  var resu = CaptureFinger(80, 10);
+  if (resu.httpStatus) {
+    res.json({
+      httpStatus: resu.httpStatus,
+      bitMapData: resu.data.BitmapData,
+      isoTemplate: resu.data.IsoTemplate,
+      quality: resu.data.Quality,
+      errorDescription: resu.data.ErrorDescription,
+    });
+  } else {
+    // If the Ajax request was not successful, it shows what went wrong.
+    console.log(resu.err);
+  }
+});
 module.exports = router;
