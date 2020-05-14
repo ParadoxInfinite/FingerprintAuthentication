@@ -30,12 +30,11 @@ app.use(authRoutes);
 app.use(registerRoutes);
 app.use(adminRoutes);
 
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
   // Redirecting the requests/hits on '/' to '/index'
   res.redirect("/index");
-  next();
 });
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).render("404"); // If there is an attempt to access invalid URL, 404 page is displayed.
 });
 app.listen(5000); //Listening on port 5000 (localhost:5000). Can be changed later.

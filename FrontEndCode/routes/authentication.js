@@ -77,7 +77,7 @@ function getHttpError(jqXHR) {
 }
 
 // GET request to '/authentication' is handled here.
-router.get("/authentication", (req, res, next) => {
+router.get("/authentication", (req, res) => {
   var userdata = req.session.context; // Context is passed from index.js which contains relevant user info.
   if (userdata) {
     if (userdata.fingerprint) {
@@ -101,7 +101,7 @@ router.get("/authentication", (req, res, next) => {
 });
 
 // POST request to '/authentication' is handled here.
-router.post("/authentication", (req, res, next) => {
+router.post("/authentication", (req, res) => {
   var userdata = req.session.context;
   var isoTemplate = userdata.fingerprint;
   var resu = MatchFinger(80, 10, isoTemplate); // Calling the MatchFinger function to compare the stored FP data to captured FP data.

@@ -74,7 +74,7 @@ function getHttpError(jqXHR) {
 }
 
 // GET request to /register handled here.
-router.get("/register", (req, res, next) => {
+router.get("/register", (req, res) => {
   // Increment the customerid and accno to render. (Valid only in this session.)
   customerid += 2;
   accno += 2;
