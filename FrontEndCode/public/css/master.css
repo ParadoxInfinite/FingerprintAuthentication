@@ -32,3 +32,6 @@ hr {
   outline: none;
   border: none;
 }
+button {
+  margin: 5px;
+}

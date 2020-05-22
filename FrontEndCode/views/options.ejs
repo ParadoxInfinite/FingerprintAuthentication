@@ -18,22 +18,16 @@
       </div>
       <div class="menu">
         <div class="options fingerprint">
-          Authentication
-          <form action="/authentication" method="POST">
-            <span><%= name %> enter your PIN</span><br />
-            <label for="pin">PIN : </label>
-            <input type="password" name="pin" id="pin" />
-            <input type="submit" value="Submit" />
-            <% if (fingerprint) { %>
-            <hr />
-            OR
-            <hr />
-            <input type="submit" value="Fingerprint" />
-            <% } %>
+          <h5>Operations</h5>
+          <h6>Hello, <%=name%></h6>
+          <button>Deposit</button><br />
+          <button>Withdraw</button><br />
+          <form action="/options" method="POST">
+            <input type="submit" value="Check Balance" />
           </form>
-          <span><%=result%></span><br />
-          <% if (redirectOptions) { %>
-          <a href="/options"><button>Proceed to Options</button></a>
+          <br />
+          <% if (balance) { %>
+          <span>Balance : ₹<%=balance%></span>
           <% } %>
         </div>
       </div>

@@ -15,6 +15,7 @@ var customerid = 99999001;
 
 function CaptureFinger(quality, timeout) {
   // Same as authentication.js, refer there for info
+  console.log("Scanner Request");
   var MFS100Request = {
     Quality: quality,
     TimeOut: timeout,
@@ -91,6 +92,7 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
+  console.log("Register");
   MongoClient.connect(
     "mongodb://localhost:27017/bankdb",
     {
@@ -107,6 +109,7 @@ router.post("/register", (req, res) => {
   res.render("registersuccess"); // Redirect to index page after registration.
 });
 router.post("/fingerCapture", (req, res) => {
+  console.log("Finger Capture");
   var resu = CaptureFinger(80, 10);
   if (resu.httpStatus) {
     res.json({

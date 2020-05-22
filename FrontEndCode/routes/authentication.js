@@ -86,6 +86,7 @@ router.get("/authentication", (req, res) => {
         name: userdata.name,
         fingerprint: true,
         result: "",
+        redirectOptions: false,
       });
     } else {
       // If the user has no fingerprint, no option for fingerpint is shown.
@@ -93,6 +94,7 @@ router.get("/authentication", (req, res) => {
         name: userdata.name,
         fingerprint: false,
         result: "",
+        redirectOptions: false,
       });
     }
   } else {
@@ -114,6 +116,7 @@ router.post("/authentication", (req, res) => {
           name: userdata.name,
           result: "Authenticated successfully",
           fingerprint: true,
+          redirectOptions: true,
         });
       } else {
         if (resu.data.ErrorCode != "0") {
@@ -125,6 +128,7 @@ router.post("/authentication", (req, res) => {
             name: userdata.name,
             result: "Failed to authenticate",
             fingerprint: true,
+            redirectOptions: false,
           });
         }
       }

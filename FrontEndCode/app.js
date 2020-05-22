@@ -7,6 +7,7 @@ const indexRoutes = require("./routes/index");
 const authRoutes = require("./routes/authentication");
 const registerRoutes = require("./routes/register");
 const adminRoutes = require("./routes/adminpanel");
+const optionsRoutes = require("./routes/options");
 const session = require("express-session");
 
 app.use(
@@ -29,6 +30,7 @@ app.use(indexRoutes);
 app.use(authRoutes);
 app.use(registerRoutes);
 app.use(adminRoutes);
+app.use(optionsRoutes);
 
 app.get("/", (req, res) => {
   // Redirecting the requests/hits on '/' to '/index'
