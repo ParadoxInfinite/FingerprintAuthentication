@@ -1,7 +1,7 @@
 {
   "name": "fingerprintauth",
   "version": "1.0.0",
-  "description": "Test version. Alpha v1",
+  "description": "Beta 1.0",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -10,10 +10,11 @@
     "express-session": "^1.17.0",
     "jquery": "^3.5.1",
     "jsdom": "^16.2.1",
-    "mongodb": "^3.5.4",
+    "mongodb": "^3.5.4"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.2"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "nodemon app.js",
     "start-server": "node app.js",
