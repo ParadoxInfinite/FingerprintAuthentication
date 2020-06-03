@@ -106,8 +106,8 @@ router.get("/authentication", (req, res) => {
 router.post("/authentication", (req, res) => {
   var userdata = req.session.context;
   var isoTemplate = userdata.fingerprint;
-  var resu = MatchFinger(80, 10, isoTemplate); // Calling the MatchFinger function to compare the stored FP data to captured FP data.
   if (userdata) {
+    var resu = MatchFinger(80, 10, isoTemplate); // Calling the MatchFinger function to compare the stored FP data to captured FP data.
     if (resu.httpStatus) {
       // If the request was successful, enters this condition.
       if (resu.data.Status) {
@@ -133,6 +133,35 @@ router.post("/authentication", (req, res) => {
         }
       }
     } else {
+      try {
+        if (req.body.pin) {
+          if (req.body.pin == userdata.pin) {
+            res.render("authentication", {
+              name: userdata.name,
+              result: "Authenticated PIN successfully",
+              fingerprint: true,
+              redirectOptions: true,
+            });
+          } else {
+            res.render("authentication", {
+              //If the PINs aren't a match, it displays the message.
+              name: userdata.name,
+              result: "Failed to authenticate PIN",
+              fingerprint: true,
+              redirectOptions: false,
+            });
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        res.render("authentication", {
+          //If the PINs aren't a match, it displays the message.
+          name: userdata.name,
+          result: "There was an error with the server while authenticating.",
+          fingerprint: true,
+          redirectOptions: false,
+        });
+      }
       // If the Ajax request was not successful, it shows what went wrong.
       console.log(resu.err);
     }
