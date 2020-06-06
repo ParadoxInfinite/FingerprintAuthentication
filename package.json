@@ -1,0 +1,40 @@
+{
+  "name": "fingerprintauth",
+  "version": "1.0.0",
+  "description": "Beta 1.0",
+  "main": "app.js",
+  "bin": "bin.js",
+  "pkg": {
+    "assets": [
+      "./public/**/*",
+      "./views/**/*"
+    ]
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.2.1",
+    "mongodb": "^3.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "start-server": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ParadoxInfinite/FingerprintAuthentication.git"
+  },
+  "author": "ParadoxInfinite",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ParadoxInfinite/FingerprintAuthentication/issues"
+  },
+  "homepage": "https://github.com/ParadoxInfinite/FingerprintAuthentication#readme"
+}

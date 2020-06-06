@@ -1,6 +1,0 @@
-db.users.insertMany( [
-   { customerid: "000001", name: "Samarth", accno : "123001", cardno : "0002652406", acctype: "Savings", fingerprint:"Rk1SACAyMAAAAAEyAAABPAFiAMUAxQEAAAAoLkCBANj9AIB/APr8AIBTAPkOAEBDAOkUAEA0ANGdAEBeAIYNAEAmAOQdAIDgAKD9AEBVAHeQAEAcAQ6jAEA0ATskAEDQAU3nAIAdAHITAID1AV12AEBWACkbAEBpABKaAICXAMgEAECiALWJAEDBALH+AEBPAKaUAIDDARfxAEDGAJIGAIDjAQJ1AEC4ATjpAEAmAKCXAEEBAM7xAEAWARUjAIC1AVlrAEDsAU7qAEEOAUdhAICYABgTAEBlANKSAICoAP97AEBqAJgLAECPAIeLAICSATDxAICkATdxAEBAASWkAEBiATwRAEA3AIQQAEBoAFoNAECQAVyEAIDPAF4LAED4AVZqAIEKAVHVAIA2ACOOAAAA", pin : "6969", balance: 7000 },
-   { customerid: "000002", name: "Osman", accno: "123002", cardno: "0002642672", acctype: "Savings", fingerprint:"twynbwerjth34352345mnj", pin : "8008", balance: 10000 },
-   { customerid: "000003", name: "Ruthwik", accno : "123003", cardno : "0002637843", acctype: "Savings", fingerprint:"R1CH4FB0I2MUCHM0N3Y", pin : "0666", balance: 50000 },
-   { customerid: "000004", name: "Vadiraj", accno : "123004", cardno : "0002630153", acctype: "Savings", fingerprint:"T1ND3R8UM8L3ANDM0R3", pin : "1435", balance: 40000 }
-] );
