@@ -3,10 +3,10 @@
 Final Year Project
 
 Collaborators :
-@ParadoxInfinite
-@OsmanDsilva
-@Mithrandir98
-@vadikrh
+[@ParadoxInfinite](https://github.com/ParadoxInfinite)
+[@OsmanDsilva](https://github.com/OsmanDsilva)
+[@Mithrandir98](https://github.com/Mithrandir98)
+[@vadikrh](https://github.com/vadikrh)
 
 ## :warning: WARNING :
 
@@ -48,7 +48,7 @@ If the hardware prerequisite for this project is not met, testing the program is
 
 Post this point, further steps have been made intuitive for the user.
 
-### Running the program :
+### Running the program [ Development method ]:
 
 1. Clone this repository
 2. In a Command Prompt/Terminal/Shell, cd (change directory) to the cloned folder.
