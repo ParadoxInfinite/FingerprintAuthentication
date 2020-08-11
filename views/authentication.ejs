@@ -19,24 +19,58 @@
       <div class="menu">
         <div class="options fingerprint">
           Authentication
-          <form action="/authentication" method="POST">
+          <form id="authForm" action="/authentication" method="POST">
             <span><%= name %> enter your PIN</span><br />
             <label for="pin">PIN : </label>
             <input type="password" name="pin" id="pin" />
-            <input type="submit" value="Submit" />
+            <input
+              type="button"
+              onclick="submitForm('PIN')"
+              value="Submit"
+            /><br />
+            <p id="errorMessage"></p>
             <% if (fingerprint) { %>
             <hr />
             OR
             <hr />
-            <input type="submit" value="Fingerprint" />
+            <input
+              type="button"
+              onclick="submitForm('Fingerprint')"
+              value="Fingerprint"
+            />
             <% } %>
           </form>
-          <span><%=result%></span><br />
+          <span id="resultSpan"><%=result%></span><br />
           <% if (redirectOptions) { %>
-          <a href="/options"><button>Proceed to Options</button></a>
+          <a id="optionsButton" href="/options"
+            ><button>Proceed to Options</button></a
+          >
           <% } %>
         </div>
       </div>
     </div>
+    <script>
+      function submitForm(type) {
+        document.getElementById("resultSpan").innerHTML = "";
+        if (document.getElementById("optionsButton")) {
+          document.getElementById("optionsButton").remove();
+        }
+        const authForm = document.getElementById("authForm");
+        if (type === "PIN") {
+          if (document.getElementById("pin").value == "") {
+            document.getElementById("errorMessage").innerHTML =
+              "No PIN entered.";
+            return;
+          } else {
+            document.getElementById("errorMessage").innerHTML = "";
+            authForm.submit();
+          }
+        } else {
+          document.getElementById("pin").value = "";
+          document.getElementById("errorMessage").innerHTML = "";
+          authForm.submit();
+        }
+      }
+    </script>
   </body>
 </html>

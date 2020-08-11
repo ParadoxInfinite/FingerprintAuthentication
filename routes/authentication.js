@@ -13,13 +13,13 @@ const router = express.Router(); // Router for routing to other pages in routes 
 var uri = "http://localhost:8004/mfs100/"; // Not secure but works for now.
 
 // Function to call when a POST request is made to authentication.js
-function MatchFinger(quality, timeout, GalleryFMR) {
+function MatchFinger(quality, timeout, existingFingerprint) {
   //Parameters are set in the calling function. Hardcoded for now, can make var
   // Creating an Object to pass data to the next function
   var MFS100Request = {
     Quality: quality,
     TimeOut: timeout,
-    GalleryTemplate: GalleryFMR,
+    GalleryTemplate: existingFingerprint,
     BioType: "FMR", // you can paas here BioType as "ANSI" if you are using ANSI Template
   };
   var jsonData = JSON.stringify(MFS100Request); // Converting the object to a string so that it can be used in Ajax request.
@@ -104,69 +104,82 @@ router.get("/authentication", (req, res) => {
 
 // POST request to '/authentication' is handled here.
 router.post("/authentication", (req, res) => {
+  console.log(req.body);
   var userdata = req.session.context;
-  var isoTemplate = userdata.fingerprint;
   if (userdata) {
-    var resu = MatchFinger(80, 10, isoTemplate); // Calling the MatchFinger function to compare the stored FP data to captured FP data.
-    if (resu.httpStatus) {
-      // If the request was successful, enters this condition.
-      if (resu.data.Status) {
-        //If both the FPs were a match, enters this condition.
-        res.render("authentication", {
-          name: userdata.name,
-          result: "Authenticated successfully",
-          fingerprint: true,
-          redirectOptions: true,
-        });
-      } else {
-        if (resu.data.ErrorCode != "0") {
-          //If there is an error in the FP data, the error code is displayed.
-          console.log(resu.data.ErrorDescription);
+    try {
+      if (req.body.pin) {
+        if (req.body.pin == userdata.pin) {
+          res.render("authentication", {
+            name: userdata.name,
+            result: "Authenticated PIN successfully",
+            fingerprint: userdata.fingerprint ? true : false,
+            redirectOptions: true,
+          });
         } else {
           res.render("authentication", {
-            //If the FPs aren't a match, it displays the message.
+            //If the PINs aren't a match, it displays the message.
             name: userdata.name,
-            result: "Failed to authenticate",
-            fingerprint: true,
+            result: "Failed to authenticate PIN",
+            fingerprint: userdata.fingerprint ? true : false,
             redirectOptions: false,
           });
         }
-      }
-    } else {
-      try {
-        if (req.body.pin) {
-          if (req.body.pin == userdata.pin) {
+      } else {
+        var isoTemplate = userdata.fingerprint;
+        var resu = MatchFinger(100, 10, isoTemplate); // Calling the MatchFinger function to compare the stored FP data to captured FP data.
+        if (resu.httpStatus) {
+          // If the request was successful, enters this condition.
+          if (resu.data.Status) {
+            //If both the FPs were a match, enters this condition.
             res.render("authentication", {
               name: userdata.name,
-              result: "Authenticated PIN successfully",
+              result: "Authenticated successfully",
               fingerprint: true,
               redirectOptions: true,
             });
           } else {
-            res.render("authentication", {
-              //If the PINs aren't a match, it displays the message.
-              name: userdata.name,
-              result: "Failed to authenticate PIN",
-              fingerprint: true,
-              redirectOptions: false,
-            });
+            if (resu.data.ErrorCode != "0") {
+              //If there is an error in the FP data, the error code is displayed.
+              console.log("Error Description : ", resu.data.ErrorDescription);
+              if (resu.data.ErrorDescription === "Timeout") {
+                res.render("authentication", {
+                  //If the FPs aren't a match, it displays the message.
+                  name: userdata.name,
+                  result: "Timed out waiting for fingerprint to be scanned.",
+                  fingerprint: true,
+                  redirectOptions: false,
+                });
+              }
+            } else {
+              res.render("authentication", {
+                //If the FPs aren't a match, it displays the message.
+                name: userdata.name,
+                result: "Failed to authenticate",
+                fingerprint: true,
+                redirectOptions: false,
+              });
+            }
           }
+        } else {
+          // If the Ajax request was not successful, it shows what went wrong.
+          console.log("RESU.ERR : ", resu.err);
+          console.log("RESU : ", resu);
         }
-      } catch (error) {
-        console.log(error);
-        res.render("authentication", {
-          //If the PINs aren't a match, it displays the message.
-          name: userdata.name,
-          result: "There was an error with the server while authenticating.",
-          fingerprint: true,
-          redirectOptions: false,
-        });
       }
-      // If the Ajax request was not successful, it shows what went wrong.
-      console.log(resu.err);
+    } catch (error) {
+      console.log("ERROR : ", error);
+      res.render("authentication", {
+        //If the PINs aren't a match, it displays the message.
+        name: userdata.name,
+        result: "There was an error with the server while authenticating.",
+        fingerprint: userdata.fingerprint ? true : false,
+        redirectOptions: false,
+      });
+      console.log("RENDER FINISHED");
     }
   } else {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).render("401");
   }
 });
 module.exports = router;

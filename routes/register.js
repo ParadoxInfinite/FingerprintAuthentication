@@ -9,9 +9,6 @@ const { document } = new JSDOM("").window;
 var $ = (jQuery = require("jquery")(window)); // Creating a window where the jQuery can execute since this is backend.
 global.document = document;
 var uri = "http://localhost:8004/mfs100/";
-// Variables to generate account number and customer id in register page. (This is temp, need to find a fix.)
-var accno = 1000001;
-var customerid = 99999001;
 
 function CaptureFinger(quality, timeout) {
   // Same as authentication.js, refer there for info
@@ -76,23 +73,9 @@ function getHttpError(jqXHR) {
 
 // GET request to /register handled here.
 router.get("/register", (req, res) => {
-  // Increment the customerid and accno to render. (Valid only in this session.)
-  customerid += 2;
-  accno += 2;
-  if (typeof req.session.context == "string") {
-    res.render("register", {
-      // Render the page with incremented data
-      cardno: req.session.context,
-      customerid: JSON.stringify(customerid),
-      accno: JSON.stringify(accno),
-    });
-  } else {
-    res.status(401).render("401");
-  }
-});
-
-router.post("/register", (req, res) => {
-  console.log("Register");
+  // Variables to generate account number and customer id in register page. (This is temp, need to find a fix.)
+  let accno = 100001;
+  let customerid = 900001;
   MongoClient.connect(
     "mongodb://localhost:27017/bankdb",
     {
@@ -103,6 +86,53 @@ router.post("/register", (req, res) => {
       //Callback function for the connection
       if (err) throw err; // If the connection fails, throws err
       var db = client.db("bankdb"); // Var for ease of use and also traditional Mongo usage.
+      db.collection("users")
+        .find()
+        .sort({ id: 1 })
+        .toArray(function (err, result) {
+          if (err) throw err;
+          if (result.length > 0) {
+            if (result[result.length - 1]) {
+              if (typeof req.session.context == "string") {
+                res.render("register", {
+                  // Render the page with incremented data
+                  cardno: req.session.context,
+                  customerid:
+                    parseInt(result[result.length - 1].customerid) + 1,
+                  accno: parseInt(result[result.length - 1].accno) + 1,
+                });
+              } else {
+                res.status(401).render("401");
+              }
+            }
+          } else {
+            res.render("register", {
+              // Render the page with incremented data
+              cardno: req.session.context,
+              customerid: customerid,
+              accno: accno,
+            });
+          }
+        });
+    }
+  );
+});
+
+router.post("/register", (req, res) => {
+  console.log("Register");
+
+  MongoClient.connect(
+    "mongodb://localhost:27017/bankdb",
+    {
+      // Connecting to our database (bankdb) on MongoDB
+      useNewUrlParser: true,
+    },
+    function (err, client) {
+      //Callback function for the connection
+      if (err) throw err; // If the connection fails, throws err
+      var db = client.db("bankdb"); // Var for ease of use and also traditional Mongo usage.
+      var balance = Math.floor(Math.random() * 20000 + 5000);
+      req.body.balance = balance;
       db.collection("users").insertOne(req.body); // req.body contains the exact JSON we need as a query to insert.
     }
   );
@@ -110,7 +140,7 @@ router.post("/register", (req, res) => {
 });
 router.post("/fingerCapture", (req, res) => {
   console.log("Finger Capture");
-  var resu = CaptureFinger(80, 10);
+  var resu = CaptureFinger(100, 10);
   if (resu.httpStatus) {
     res.json({
       httpStatus: resu.httpStatus,

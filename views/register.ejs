@@ -8,28 +8,38 @@
     <link rel="stylesheet" href="../css/master.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <script src="../jquery-1.8.2.js"></script>
-    <!-- <script src="../mfs100-9.0.2.6.js"></script> -->
     <script>
       function Capture() {
+        document.getElementById("submitButton").disabled = true;
         try {
-          //   document.getElementById('fingerimg').src = "data:image/bmp;base64,";
-          // var res = CaptureFinger(60, 10);
           var res;
           $.ajax({
             type: "POST",
             async: true,
             crossDomain: true,
-            url: "http://b0906127.ngrok.io/fingerCapture",
+            url: "http://localhost:5000/fingerCapture",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
               httpStatus = true;
               if (data.httpStatus) {
-                document.getElementById("txtStatus").value =
-                  " ErrorDescription: " + data.errorDescription;
+                if (data.errorDescription === "") {
+                  document.getElementById("txtStatus").value =
+                    "Successfully scanned";
+                } else {
+                  document.getElementById("txtStatus").value =
+                    " ErrorDescription: " + data.errorDescription;
+                }
                 document.getElementById("fingerimg").src =
                   "data:image/bmp;base64," + data.bitMapData;
                 document.getElementById("isoTemp").value = data.isoTemplate;
                 document.getElementById("quality").value = data.quality;
+                if (data.quality >= 80) {
+                  document.getElementById("errorMessage").innerHTML = "";
+                  document.getElementById("submitButton").disabled = false;
+                } else {
+                  document.getElementById("errorMessage").innerHTML =
+                    "Fingerprint quality is low, please scan again!";
+                }
               } else {
                 alert(res.err);
               }
@@ -43,10 +53,19 @@
         }
         return false;
       }
+      function clearFields() {
+        document.getElementById("txtStatus").value = "";
+        document.getElementById("fingerimg").src = "";
+        document.getElementById("isoTemp").value = "";
+        document.getElementById("quality").value = "";
+        document.getElementById("errorMessage").innerHTML = "";
+        document.getElementById("submitButton").disabled = false;
+      }
     </script>
   </head>
   <body>
     <div class="container">
+      <h2>Register</h2>
       <div class="reg-form">
         <form action="/register" method="POST" name="reg">
           <div>
@@ -92,7 +111,11 @@
           </div>
           <div>
             <label for="fp">Fingerprint: </label
-            ><input type="button" value="Capture" onclick="Capture()" />
+            ><input type="button" value="Capture" onclick="Capture()" /><input
+              type="button"
+              value="Clear Fingerprint"
+              onclick="clearFields()"
+            /><br />
             <img
               id="fingerimg"
               width="145px"
@@ -100,13 +123,14 @@
               Falt="Finger Image"
               class="padd_top"
             />
+            <p id="errorMessage"></p>
             <div>
               <label for="">Status : </label
-              ><input type="text" value="" id="txtStatus" disabled />
+              ><input type="text" value="" id="txtStatus" readonly />
             </div>
             <div>
               <label for="">Quality : </label
-              ><input type="text" value="" id="quality" disabled />
+              ><input type="text" value="" id="quality" readonly />
             </div>
             <div>
               <textarea
@@ -123,7 +147,7 @@
             ><input type="password" id="pin" name="pin" required />
           </div>
           <div></div>
-          <div><input type="submit" value="Register" /></div>
+          <div><input type="submit" id="submitButton" value="Register" /></div>
         </form>
       </div>
     </div>

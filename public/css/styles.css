@@ -10,3 +10,8 @@ label {
   width: 50%;
   margin: 0 auto;
 }
+
+#errorMessage {
+  color: red;
+  /* font-weight: bold; */
+}

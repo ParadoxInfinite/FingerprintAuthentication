@@ -35,3 +35,7 @@ hr {
 button {
   margin: 5px;
 }
+#errorMessage {
+  color: red;
+  /* font-weight: bold; */
+}
