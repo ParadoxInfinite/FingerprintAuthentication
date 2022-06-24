@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "jquery": "^3.5.1",
-    "jsdom": "^16.2.1",
+    "jsdom": "^16.5.0",
     "mongodb": "^3.5.4"
   },
   "devDependencies": {
